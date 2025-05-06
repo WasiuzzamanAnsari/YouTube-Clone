@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import channels from "./routes/channels.js";
 import auth from "./routes/auth.js";
 import users from "./routes/users.js";
+import cookieParser from "cookie-parser";
 
 
 dotenv.config();
@@ -23,6 +24,8 @@ const connect = () => {
       });
   };
 
+
+app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api/auth", auth);
