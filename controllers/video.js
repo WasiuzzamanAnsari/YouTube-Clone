@@ -73,3 +73,31 @@ export const updateVideo = async (req, res, next) => {
     next(err);
   }
 };
+
+
+
+export const removeVideo = async (req, res, next) => {
+  try {
+    const video = await Video.findById(req.params.id);
+    if (!video) return next(createError(404, "Video not found."));
+    if (req.user.id === video.userId) {
+      await Video.findByIdAndDelete(req.params.id);
+      res.status(200).json("Video deleted successfully.");
+    } else {
+      return next(createError(403, "You can only delete your own videos."));
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+export const getVideo = async (req, res, next) => {
+  try {
+    const video = await Video.findById(req.params.id);
+    if (!video) return next(createError(404, "Video not found."));
+    res.status(200).json(video);
+  } catch (err) {
+    next(err);
+  }
+};
