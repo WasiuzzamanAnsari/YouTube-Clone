@@ -1,4 +1,5 @@
 import Video from "../models/Video.js";
+import { createError } from "../error.js";
 // import User from "../models/User.js";
 
 export const addVideo = async (req, res) => {
@@ -48,5 +49,27 @@ try {
 } catch (error) {
     console.error("Error uploading video:", error);
     res.status(500).json({ error: "Something went wrong. Please try again later." });
+  }
+};
+
+
+export const updateVideo = async (req, res, next) => {
+  try {
+    const video = await Video.findById(req.params.id);
+    if (!video) return next(createError(404, "Video not found."));
+    if (req.user.id === video.userId) {
+      const updatedVideo = await Video.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: req.body,
+        },
+        { new: true }
+      );
+      res.status(200).json(updatedVideo);
+    } else {
+      return next(createError(403, "You can only update your own videos."));
+    }
+  } catch (err) {
+    next(err);
   }
 };
