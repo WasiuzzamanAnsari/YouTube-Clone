@@ -1,6 +1,9 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import channels from "./routes/channels.js";
+import auth from "./routes/auth.js";
+import users from "./routes/users.js";
 
 
 dotenv.config();
@@ -20,7 +23,21 @@ const connect = () => {
       });
   };
 
+app.use(express.json());
 
+app.use("/api/auth", auth);
+app.use("/api/users", users);
+app.use("/api/channels", channels);
+
+app.use((err,req,res,next)=> {
+  const status = err.status || 500;
+  const message = err.message || "Something went Wrong.";
+  res.status(status).json({
+    success: false,
+    status,
+    message,
+  });
+});
 
 const PORT = process.env.PORT || 7272;
 app.listen(PORT, () => {
