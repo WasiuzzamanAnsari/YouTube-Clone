@@ -5,6 +5,8 @@ import channels from "./routes/channels.js";
 import auth from "./routes/auth.js";
 import users from "./routes/users.js";
 import cookieParser from "cookie-parser";
+import path from "path";
+import { fileURLToPath } from "url";
 
 
 dotenv.config();
