@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import channels from "./routes/channels.js";
 import auth from "./routes/auth.js";
 import users from "./routes/users.js";
+import videos from "./routes/videos.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -37,6 +38,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/auth", auth);
 app.use("/api/users", users);
+app.use("/api/videos", videos);
 app.use("/api/channels", channels);
 
 app.use((err,req,res,next)=> {
