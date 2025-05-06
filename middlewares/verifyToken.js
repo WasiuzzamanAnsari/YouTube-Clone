@@ -1,0 +1,19 @@
+import jwt from "jsonwebtoken";
+import { createError } from "../error.js";
+
+export const verifyToken = (req, res, next) => {
+  const token = req.cookies?.access_token;
+
+  if (!token) {
+    return next(createError(401, "Authentication required."));
+  }
+
+  jwt.verify(token, process.env.JWT, (err, decodedData) => {
+    if (err) {
+      return next(createError(403, "Invalid or expired token."));
+    }
+
+    req.user = decodedData;
+    next();
+  });
+};
