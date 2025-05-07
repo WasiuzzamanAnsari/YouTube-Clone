@@ -1,5 +1,6 @@
 import Comment from "../models/Comment.js";
 import { createError } from "../error.js";
+import Video from "../models/Video.js";
 
 export const addNewComment = async (req, res, next) => {
     if (!req.user) return next(createError(401, "You must be logged in to comment."));
@@ -11,4 +12,35 @@ export const addNewComment = async (req, res, next) => {
       next(err);
     }
   };
-  
+
+
+  export const removeComment = async (req, res, next) => {
+    try {
+      const commentToDelete = await Comment.findById(req.params.id);
+      if (!commentToDelete) return next(createError(404, "Comment not found."));
+      const associatedVideo = await Video.findById(commentToDelete.videoId);
+      if (!associatedVideo) {
+        await Comment.findByIdAndDelete(req.params.id);
+        return res.status(200).json({ message: "Comment successfully deleted." });
+      }
+      if (req.user.id === commentToDelete.userId || req.user.id === associatedVideo.userId) {
+        await Comment.findByIdAndDelete(req.params.id);
+        return res.status(200).json({ message: "Comment deleted successfully." });
+      } else {
+        return next(createError(403, "You can only delete your own comment."));
+      }
+    } catch (err) {
+      console.error("Error deleting comment:", err);
+      next(err);
+    }
+  };
+
+
+  export const getAllComments = async (req, res, next) => {
+    try {
+        const videoComments = await Comment.find({ videoId: String(req.params.videoId) });
+        res.status(200).json(videoComments);
+    } catch (err) {
+        next(err);
+    }
+};
