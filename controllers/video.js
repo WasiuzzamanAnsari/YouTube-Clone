@@ -1,6 +1,6 @@
 import Video from "../models/Video.js";
 import { createError } from "../error.js";
-// import User from "../models/User.js";
+import User from "../models/User.js";
 
 export const addVideo = async (req, res) => {
     try {
@@ -97,6 +97,56 @@ export const getVideo = async (req, res, next) => {
     const video = await Video.findById(req.params.id);
     if (!video) return next(createError(404, "Video not found."));
     res.status(200).json(video);
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+export const getUserVideos = async (req, res, next) => {
+  try {
+    const videos = await Video.find({ userId: req.params.userId });
+    res.status(200).json(videos);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+export const subsVideo = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id);
+    const subscribedChannels = user.subscribedUsers;
+
+    const list = await Promise.all(
+      subscribedChannels.map((channelId) => {
+        return Video.find({ userId: channelId });
+      })
+    );
+    res.status(200).json(list.flat());
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+export const getVideoByTag = async (req, res, next) => {
+  const tags = req.query.tags.split(",");
+  try {
+    const videos = await Video.find({ tags: { $in: tags } }).limit(20);
+    res.status(200).json(videos);
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+
+export const searchVideo = async (req, res, next) => {
+  const query = req.query.q;
+  try {
+    const videos = await Video.find({ title: { $regex: query, $options: "i" } }).limit(40);
+    res.status(200).json(videos);
   } catch (err) {
     next(err);
   }
