@@ -9,6 +9,7 @@ import comments from "./routes/comments.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 import { fileURLToPath } from "url";
+import cors from "cors";
 
 
 dotenv.config();
@@ -27,6 +28,14 @@ const connect = () => {
         console.error("DB connection failed:", err);
       });
   };
+
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 
 app.use(cookieParser());
