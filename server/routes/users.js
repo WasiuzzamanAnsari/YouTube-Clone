@@ -4,14 +4,15 @@ import { verifyToken } from "../middlewares/verifyToken.js";
 
 const router = express.Router();
 
-router.get("/find/:id", getUser );
+//  USER ROUTES
+router.get("/find/:id", getUser );  // Get a user by ID
 
-router.put("/sub/:id",verifyToken, subscribeUser );
+router.put("/sub/:id",verifyToken, subscribeUser );  // Subscribe to user
 
-router.put("/unsub/:id", verifyToken, unsubscribeUser );
+router.put("/unsub/:id", verifyToken, unsubscribeUser );  // Unsubscribe from user
 
-router.put("/like/:videoId",verifyToken, likeVideo );
+router.put("/like/:videoId",verifyToken, likeVideo );   // Like a video
 
-router.put("/dislike/:videoId",verifyToken, dislikeVideo );
+router.put("/dislike/:videoId",verifyToken, dislikeVideo );  // Dislike a video
 
 export default router;

@@ -4,8 +4,9 @@ import { createNewChannel, getChannel } from "../controllers/channel.js";
 
 const router = express.Router();
 
-router.post("/", verifyToken, createNewChannel);
+// CHANNEL ROUTES
+router.post("/", verifyToken, createNewChannel);   // Create new channel
 
-router.get("/:userId", getChannel);
+router.get("/:userId", getChannel);   // Get channel by user ID
 
 export default router;

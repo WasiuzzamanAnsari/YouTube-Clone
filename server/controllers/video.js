@@ -2,6 +2,7 @@ import Video from "../models/Video.js";
 import { createError } from "../error.js";
 import User from "../models/User.js";
 
+// ADD VIDEO CONTROLLER
 export const addVideo = async (req, res) => {
     try {
       if (!req.files || !req.files.videoFile || !req.files.imgFile) {
@@ -17,7 +18,7 @@ export const addVideo = async (req, res) => {
         imgUrl: `/uploads/${req.files.imgFile[0].filename}`,
       });
   
-      await newVideo.save();
+      await newVideo.save();  // SAve to DB
       res.status(201).json({ message: "Video uploaded successfully", video: newVideo });
     } catch (error) {
       console.error("Error uploading video:", error);
@@ -26,11 +27,12 @@ export const addVideo = async (req, res) => {
   };
 
 
-
+// ADD VIDEO VIA URL
 export const addVideos = async (req, res) => {
 try {
     const { title, desc, tags, videoUrl, imgUrl } = req.body;
   
+    //all required fields are required
     if (!title || !desc || !videoUrl || !imgUrl) {
     return res.status(400).json({ error: "All fields are required." });
     }
@@ -53,6 +55,7 @@ try {
 };
 
 
+// UPDATE VIDEO CONTROLLER
 export const updateVideo = async (req, res, next) => {
   try {
     const video = await Video.findById(req.params.id);
@@ -75,7 +78,7 @@ export const updateVideo = async (req, res, next) => {
 };
 
 
-
+// DELETE VIDEO CONTROLLER
 export const removeVideo = async (req, res, next) => {
   try {
     const video = await Video.findById(req.params.id);
@@ -92,6 +95,7 @@ export const removeVideo = async (req, res, next) => {
 };
 
 
+// GET VIDEO CONTROLLER
 export const getVideo = async (req, res, next) => {
   try {
     const video = await Video.findById(req.params.id);
@@ -103,6 +107,7 @@ export const getVideo = async (req, res, next) => {
 };
 
 
+// GET VIDEO OF USER CONTROLLER
 export const getUserVideos = async (req, res, next) => {
   try {
     const videos = await Video.find({ userId: req.params.userId });
@@ -113,6 +118,7 @@ export const getUserVideos = async (req, res, next) => {
 };
 
 
+// SUBSCRIBE CONTROLLER
 export const subsVideo = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id);
@@ -130,6 +136,7 @@ export const subsVideo = async (req, res, next) => {
 };
 
 
+//GET VIDEO USING TAG CONTROLLER
 export const getVideoByTag = async (req, res, next) => {
   const tags = req.query.tags.split(",");
   try {
@@ -141,7 +148,7 @@ export const getVideoByTag = async (req, res, next) => {
 };
 
 
-
+// SEARCH VIDEO CONTROLLLER
 export const searchVideo = async (req, res, next) => {
   const query = req.query.q;
   try {
@@ -153,6 +160,7 @@ export const searchVideo = async (req, res, next) => {
 };
 
 
+// SHOW RANDOM VIDEOS CONTROLLER
 export const random = async (req, res, next) => {
   try {
     const videos = await Video.aggregate([{ $sample: { size: 40 } }]);

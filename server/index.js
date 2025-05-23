@@ -17,7 +17,7 @@ dotenv.config();
 
 const app = express();
 
-
+// MongoDB connection
 const connect = () => {
     mongoose
       .connect(process.env.MONGO)
@@ -29,7 +29,7 @@ const connect = () => {
       });
   };
 
-
+// CORS for frontend 
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -37,21 +37,24 @@ app.use(
   })
 );
 
-
+// Cookie and JSON parser
 app.use(cookieParser());
 app.use(express.json());
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Static files from uploads folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+// Route handlers
 app.use("/api/auth", auth);
 app.use("/api/users", users);
 app.use("/api/videos", videos);
 app.use("/api/channels", channels);
 app.use("/api/comments", comments);
 
+// Error handler
 app.use((err,req,res,next)=> {
   const status = err.status || 500;
   const message = err.message || "Something went Wrong.";
@@ -62,6 +65,7 @@ app.use((err,req,res,next)=> {
   });
 });
 
+// Launch server and connect to DB
 const PORT = process.env.PORT || 7272;
 app.listen(PORT, () => {
   connect();

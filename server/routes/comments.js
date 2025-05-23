@@ -5,8 +5,9 @@ import { verifyToken } from "../middlewares/verifyToken.js";
 
 const router = express.Router();
 
-router.post("/", verifyToken, addNewComment);
-router.delete("/:id", verifyToken, removeComment);
-router.get("/:videoId", getAllComments);
+// COMMENT ROUTES
+router.post("/", verifyToken, addNewComment);  // Add new comment
+router.delete("/:id", verifyToken, removeComment);   // Delete comment
+router.get("/:videoId", getAllComments);  // Get all comments
 
 export default router;
