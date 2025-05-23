@@ -130,8 +130,8 @@ npm i
 ### Setup Enviroment Variables (create .env file in root of server folder)
 
 PORT=7272
-MONGODB_URI=your-mongodb-uri
-JWT_SECRET=your-secret-key
+MONGO=your-mongodb-uri
+JWT=your-secret-key
 
 ## Start server
 npm start
