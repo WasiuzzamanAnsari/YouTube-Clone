@@ -8,7 +8,7 @@ This is my Capstone project given by Internshala Trainings. It is a youtube clon
 
 ## Demo Video Usage
 
-Click this [DEMO VIDEO](https://drive.google.com/file/d/12l27hCAQ34dq1qXaolv5b_FMSNy6zFAz/view?usp=sharing) to watch DEMO.
+Click this [DEMO VIDEO](https://drive.google.com/file/d/1r1sAdCXwBxvsWMwEwkqFUcew3rSyqu6J/view?usp=sharing) to watch DEMO.
 
 
 ---
