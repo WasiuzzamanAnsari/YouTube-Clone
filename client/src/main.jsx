@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import App from "./App.jsx";
 import { StrictMode, Suspense, lazy } from "react";
+import Error from "./Components/Error.jsx";
 
 // Lazy loading
 const HomePage = lazy(() => import("./Components/HomePage.jsx"));
@@ -20,6 +21,7 @@ const appRouter = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <Error />,
     children: [
       { index: true, element: <HomePage type="random" /> },
       { path: "trends", element: <HomePage type="trend" /> },
