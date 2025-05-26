@@ -5,6 +5,17 @@ This is my Capstone project given by Internshala Trainings. It is a youtube clon
 
 ---
 
+## Fixed incorrect submission
+
+MongoDB Atlas is now accessible from all IPs for evaluation.
+I will end the public access after the evaluation.
+
+
+
+---
+
+
+
 
 ## Demo Video Usage
 
